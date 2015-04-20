@@ -1,7 +1,0 @@
-apply plugin: 'java'
-
-description = 'mqtt-client'
-dependencies {
-    compile group: 'org.fusesource.hawtdispatch', name: 'hawtdispatch-transport', version:'1.21'
-    compile group: 'org.fusesource.hawtbuf', name: 'hawtbuf', version:'1.11'
-}
