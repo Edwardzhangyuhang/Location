@@ -1,0 +1,33 @@
+﻿   1.  Report client info data  (client=>cloud):
+topic:     data/dev/car_id
+ 
+Outdoor
+message:   {"name":"car_id","time":"2015-04-16 08:28:00","battery_level":"3","gsm_level":"-88dbm","lock":"0",location:{"type":"gps","data":{"lat":100,"lng":50}}}
+ 
+Indoor
+message:   {"name":"car_id","time":"2015-04-16 08:28:00","battery_level":"3","gsm_level":"-88dbm","lock":"0",location:{"type":"ibeacon","data":{"mac":"00:11:22:33:44:55","rssi":"-77dbm"}}}
+ 
+2.  Control client open lock (cloud=>client):
+topic:     control/dev/car_id
+message: {"name":"car_id","time":"2015-04-16 08:28:00","cmd":"openlock","cmd_key":"12345678"}
+ 
+3.  Response client open lock (client=>cloud):
+topic:     response/dev/car_id
+message: {"name":"car_id","time":"2015-04-16 08:28:00","cmd":"openlock","cmd_key":"12345678","result":"pass","reason":"xxxxxx"}
+message: {"name":"car_id","time":"2015-04-16 08:28:00","cmd":"openlock","cmd_key":"12345678","result":"fail","reason":"xxxxxx"}
+ 
+4.  Control client close lock (cloud=>client):
+topic:     control/dev/car_id
+message: {"name":"car_id","time":"2015-04-16 08:28:00","cmd":"closelock","cmd_key":"12345678"}
+ 
+5.  Response client open lock (client=>cloud):
+topic:     response/dev/car_id
+message: {"name":"car_id","time":"2015-04-16 08:28:00","cmd":"closelock","cmd_key":"12345678","result":"pass","reason":"xxxxxx"}
+message: {"name":"car_id","time":"2015-04-16 08:28:00","cmd":"closelock","cmd_key":"12345678","result":"fail","reason":"xxxxxx"}
+ 
+ 
+6.  Send alerts  of exceptions (client=>cloud):
+ 
+topic:     alerts/dev/car_id
+message: {"name":"car_id","time":"2015-04-16 08:28:00","alert":{"id":"0001","level":"normal","info":"xxxxxxxxxxxxxxx"}}
+(id meas error case id)
