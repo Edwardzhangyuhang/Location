@@ -57,4 +57,42 @@
     <string name="pref_ringtone_silent">Silent</string>
 
     <string name="pref_title_vibrate">Vibrate</string>
+    <string name="host">Host</string>
+    <string name="port">Port</string>
+
+    <string name="http_server_title">Http server</string>
+
+    <string name="mq_server_title">MQ server</string>
+    <string name="keep_alive">Keep Alive</string>
+    <string name="connect_attempts">Connect Attempts</string>
+    <string name="reconnect_attempts">Reconnect Attempts</string>
+    <string name="reconnect_delay">Reconnect Delay</string>
+    <string name="reconnect_max_delay">Reconnect Max Delay</string>
+    <string name="send_max_timeout">Send Max Timeout</string>
+    <string name="recv_max_timeout">Recv Max Timeout</string>
+    <string name="topic_gps_data">GPS Topic</string>
+    <string name="topic_ble_data">BLE Topic</string>
+    <string name="topic_cmd">Topic Command</string>
+    <string name="topic_response">Topic Response</string>
+    <string name="topic_alert">Topic Alert</string>
+
+    <string name="filename_title">Filename</string>
+    <string name="app_db_name">APP Database Name</string>
+    <string name="app_pref_name">APP Pref Name</string>
+    <string name="app_crash_log_file">APP Crash Log File</string>
+
+    <string name="loc_title">Location Task Parameter</string>
+    <string name="loc_task_run_interval">Loc Task Run Interval</string>
+    <string name="loc_min_accuracy">Loc Min Accuracy</string>
+    <string name="loc_update_min_distance">Loc Update Min Distance</string>
+    <string name="loc_update_min_time">Loc Update Min Time</string>
+    <string name="loc_provide_check_time">Loc Provide Check Time</string>
+    <string name="loc_update_pause_idle_time">Loc Update Pause Idle Time</string>
+
+    <string name="ble_title">BLE Task Parameter</string>
+    <string name="ble_task_run_interval">BLE Task Run Interval</string>
+    <string name="ble_device_name_filter">BLE Device Name Filter</string>
+    <string name="ble_rssi_threshold">BLE RSSI Threshold</string>
+    <string name="ble_update_min_time">BLE Update Min Time</string>
+
 </resources>

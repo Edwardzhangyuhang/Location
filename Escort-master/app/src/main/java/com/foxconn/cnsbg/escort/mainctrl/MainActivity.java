@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
         CrashHandler.getInstance().init(sdcard + "/" + SysConst.APP_CRASH_LOG_FILE);
 
         Intent serviceIntent = new Intent(MainActivity.this, MainService.class);
-        startService(serviceIntent);
+        //startService(serviceIntent);
 
         startActivity(new Intent(MainActivity.this, SettingsActivity.class));
         finish();

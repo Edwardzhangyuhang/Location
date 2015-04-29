@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <EditTextPreference
+        android:key="mq_server_host"
+        android:title="@string/host"
+        android:selectAllOnFocus="true"
+        android:inputType="textUri"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_server_port"
+        android:title="@string/port"
+        android:selectAllOnFocus="true"
+        android:inputType="number"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_keep_alive"
+        android:title="@string/keep_alive"
+        android:selectAllOnFocus="true"
+        android:inputType="number"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_connect_attempts"
+        android:title="@string/connect_attempts"
+        android:selectAllOnFocus="true"
+        android:inputType="numberSigned"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_reconnect_attempts"
+        android:title="@string/reconnect_attempts"
+        android:selectAllOnFocus="true"
+        android:inputType="numberSigned"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_reconnect_delay"
+        android:title="@string/reconnect_delay"
+        android:selectAllOnFocus="true"
+        android:inputType="number"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_reconnect_max_delay"
+        android:title="@string/reconnect_max_delay"
+        android:selectAllOnFocus="true"
+        android:inputType="number"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_send_max_timeout"
+        android:title="@string/send_max_timeout"
+        android:selectAllOnFocus="true"
+        android:inputType="number"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_recv_max_timeout"
+        android:title="@string/recv_max_timeout"
+        android:selectAllOnFocus="true"
+        android:inputType="number"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_topic_gps_data"
+        android:title="@string/topic_gps_data"
+        android:selectAllOnFocus="true"
+        android:inputType="text"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_topic_ble_data"
+        android:title="@string/topic_ble_data"
+        android:selectAllOnFocus="true"
+        android:inputType="text"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_topic_cmd"
+        android:title="@string/topic_cmd"
+        android:selectAllOnFocus="true"
+        android:inputType="text"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_topic_response"
+        android:title="@string/topic_response"
+        android:selectAllOnFocus="true"
+        android:inputType="text"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+    <EditTextPreference
+        android:key="mq_topic_alert"
+        android:title="@string/topic_alert"
+        android:selectAllOnFocus="true"
+        android:inputType="text"
+        android:capitalize="words"
+        android:singleLine="true"
+        android:maxLines="1" />
+
+
+</PreferenceScreen>

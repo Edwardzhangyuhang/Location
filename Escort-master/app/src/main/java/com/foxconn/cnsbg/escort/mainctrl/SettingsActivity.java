@@ -2,6 +2,7 @@ package com.foxconn.cnsbg.escort.mainctrl;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -17,6 +18,8 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 
+import com.foxconn.cnsbg.escort.common.SettingsUtil;
+import com.foxconn.cnsbg.escort.common.SysUtil;
 
 import java.util.List;
 
@@ -40,11 +43,12 @@ public class SettingsActivity extends PreferenceActivity {
      */
     private static final boolean ALWAYS_SIMPLE_PREFS = false;
 
+    private static boolean First_bootup = true;
 
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-
+        init();
         setupSimplePreferencesScreen();
     }
 
@@ -62,27 +66,112 @@ public class SettingsActivity extends PreferenceActivity {
         // use the older PreferenceActivity APIs.
 
         // Add 'general' preferences.
-        addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.pref_general);
-
+        addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.setting_http);
+			
         // Add 'notifications' preferences, and a corresponding header.
         PreferenceCategory fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(com.foxconn.cnsbg.escort.R.string.pref_header_notifications);
+        fakeHeader.setTitle(com.foxconn.cnsbg.escort.R.string.mq_server_title);
         getPreferenceScreen().addPreference(fakeHeader);
-        addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.pref_notification);
+        addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.setting_mq);
 
         // Add 'data and sync' preferences, and a corresponding header.
         fakeHeader = new PreferenceCategory(this);
-        fakeHeader.setTitle(com.foxconn.cnsbg.escort.R.string.pref_header_data_sync);
+        fakeHeader.setTitle(com.foxconn.cnsbg.escort.R.string.filename_title);
         getPreferenceScreen().addPreference(fakeHeader);
-        addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.pref_data_sync);
+        addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.setting_file);
 
+        fakeHeader = new PreferenceCategory(this);
+        fakeHeader.setTitle(com.foxconn.cnsbg.escort.R.string.loc_title);
+        getPreferenceScreen().addPreference(fakeHeader);
+        addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.setting_location_task);
+
+        fakeHeader = new PreferenceCategory(this);
+        fakeHeader.setTitle(com.foxconn.cnsbg.escort.R.string.ble_title);
+        getPreferenceScreen().addPreference(fakeHeader);
+        addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.setting_ble_task);
         // Bind the summaries of EditText/List/Dialog/Ringtone preferences to
         // their values. When their values change, their summaries are updated
         // to reflect the new value, per the Android Design guidelines.
-        bindPreferenceSummaryToValue(findPreference("example_text"));
-        bindPreferenceSummaryToValue(findPreference("example_list"));
-        bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-        bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+        SettingsUtil.setDefaultvalue(this);
+        bindSummary();
+        //bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+        //bindPreferenceSummaryToValue(findPreference("sync_frequency"));
+    }
+
+    public void bindSummary(){
+
+        bindPreferenceSummaryToValue(findPreference("http_server_host"));
+        bindPreferenceSummaryToValue(findPreference("http_server_port"));
+
+        bindPreferenceSummaryToValue(findPreference("mq_server_host"));
+        bindPreferenceSummaryToValue(findPreference("mq_server_port"));
+        bindPreferenceSummaryToValue(findPreference("mq_keep_alive"));
+        bindPreferenceSummaryToValue(findPreference("mq_connect_attempts"));
+        bindPreferenceSummaryToValue(findPreference("mq_reconnect_attempts"));
+        bindPreferenceSummaryToValue(findPreference("mq_reconnect_delay"));
+        bindPreferenceSummaryToValue(findPreference("mq_reconnect_max_delay"));
+        bindPreferenceSummaryToValue(findPreference("mq_send_max_timeout"));
+        bindPreferenceSummaryToValue(findPreference("mq_recv_max_timeout"));
+        bindPreferenceSummaryToValue(findPreference("mq_topic_gps_data"));
+        bindPreferenceSummaryToValue(findPreference("mq_topic_ble_data"));
+        bindPreferenceSummaryToValue(findPreference("mq_topic_cmd"));
+        bindPreferenceSummaryToValue(findPreference("mq_topic_response"));
+        bindPreferenceSummaryToValue(findPreference("mq_topic_alert"));
+
+        bindPreferenceSummaryToValue(findPreference("app_db_name"));
+        bindPreferenceSummaryToValue(findPreference("app_pref_name"));
+        bindPreferenceSummaryToValue(findPreference("app_crash_log"));
+
+        bindPreferenceSummaryToValue(findPreference("loc_task_run_interval"));
+        bindPreferenceSummaryToValue(findPreference("loc_min_accuracy"));
+        bindPreferenceSummaryToValue(findPreference("loc_update_min_distance"));
+        bindPreferenceSummaryToValue(findPreference("loc_update_min_time"));
+        bindPreferenceSummaryToValue(findPreference("loc_provide_check_time"));
+        bindPreferenceSummaryToValue(findPreference("loc_update_pause_idle_time"));
+
+        bindPreferenceSummaryToValue(findPreference("ble_task_run_interval"));
+        bindPreferenceSummaryToValue(findPreference("ble_device_name_filter"));
+        bindPreferenceSummaryToValue(findPreference("ble_rssi_threshold"));
+        /* Set the flag to false before the last summary change */
+        setConfig();
+        bindPreferenceSummaryToValue(findPreference("ble_update_min_time"));
+    }
+    public void init(){
+
+        SettingsUtil.Edit_key.put("http_server_host", 1);
+        SettingsUtil.Edit_key.put("http_server_port", 2);
+
+        SettingsUtil.Edit_key.put("mq_server_host", 3);
+        SettingsUtil.Edit_key.put("mq_server_port", 4);
+        SettingsUtil.Edit_key.put("mq_keep_alive", 5);
+        SettingsUtil.Edit_key.put("mq_connect_attempts", 6);
+        SettingsUtil.Edit_key.put("mq_reconnect_attempts", 7);
+        SettingsUtil.Edit_key.put("mq_reconnect_delay", 8);
+        SettingsUtil.Edit_key.put("mq_reconnect_max_delay", 9);
+        SettingsUtil.Edit_key.put("mq_send_max_timeout", 10);
+        SettingsUtil.Edit_key.put("mq_recv_max_timeout", 11);
+        SettingsUtil.Edit_key.put("mq_topic_gps_data", 12);
+        SettingsUtil.Edit_key.put("mq_topic_ble_data", 13);
+        SettingsUtil.Edit_key.put("mq_topic_cmd", 14);
+        SettingsUtil.Edit_key.put("mq_topic_response", 15);
+        SettingsUtil.Edit_key.put("mq_topic_alert", 16);
+
+        SettingsUtil.Edit_key.put("app_db_name", 17);
+        SettingsUtil.Edit_key.put("app_pref_name", 18);
+        SettingsUtil.Edit_key.put("app_crash_log", 19);
+
+        SettingsUtil.Edit_key.put("loc_task_run_interval", 20);
+        SettingsUtil.Edit_key.put("loc_min_accuracy", 21);
+        SettingsUtil.Edit_key.put("loc_update_min_distance", 22);
+        SettingsUtil.Edit_key.put("loc_update_min_time", 23);
+        SettingsUtil.Edit_key.put("loc_provide_check_time", 24);
+        SettingsUtil.Edit_key.put("loc_update_pause_idle_time", 25);
+
+        SettingsUtil.Edit_key.put("ble_task_run_interval", 26);
+        SettingsUtil.Edit_key.put("ble_device_name_filter", 27);
+        SettingsUtil.Edit_key.put("ble_rssi_threshold", 28);
+        SettingsUtil.Edit_key.put("ble_update_min_time", 29);
+
     }
 
     /**
@@ -130,54 +219,30 @@ public class SettingsActivity extends PreferenceActivity {
      * A preference value change listener that updates the preference's summary
      * to reflect its new value.
      */
-    private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
+    private Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
         @Override
         public boolean onPreferenceChange(Preference preference, Object value) {
             String stringValue = value.toString();
 
-            if (preference instanceof ListPreference) {
-                // For list preferences, look up the correct display value in
-                // the preference's 'entries' list.
-                ListPreference listPreference = (ListPreference) preference;
-                int index = listPreference.findIndexOfValue(stringValue);
-
-                // Set the summary to reflect the new value.
-                preference.setSummary(
-                        index >= 0
-                                ? listPreference.getEntries()[index]
-                                : null);
-
-            } else if (preference instanceof RingtonePreference) {
-                // For ringtone preferences, look up the correct display value
-                // using RingtoneManager.
-                if (TextUtils.isEmpty(stringValue)) {
-                    // Empty values correspond to 'silent' (no ringtone).
-                    preference.setSummary(com.foxconn.cnsbg.escort.R.string.pref_ringtone_silent);
-
-                } else {
-                    Ringtone ringtone = RingtoneManager.getRingtone(
-                            preference.getContext(), Uri.parse(stringValue));
-
-                    if (ringtone == null) {
-                        // Clear the summary if there was a lookup error.
-                        preference.setSummary(null);
-                    } else {
-                        // Set the summary to reflect the new ringtone display
-                        // name.
-                        String name = ringtone.getTitle(preference.getContext());
-                        preference.setSummary(name);
-                    }
-                }
-
-            } else {
+             {
                 // For all other preferences, set the summary to the value's
                 // simple string representation.
                 preference.setSummary(stringValue);
-            }
+                //preference.
+                 if(stringValue != null)
+                    SettingsUtil.setValue(preference.getKey(),stringValue);
+
+                 if (First_bootup == false) {
+                     restart_service();
+                 }
+               }
             return true;
         }
     };
 
+    private void setConfig() {
+        First_bootup = false;
+    }
     /**
      * Binds a preference's summary to its value. More specifically, when the
      * preference's value is changed, its summary (line of text below the
@@ -187,7 +252,7 @@ public class SettingsActivity extends PreferenceActivity {
      *
      * @see #sBindPreferenceSummaryToValueListener
      */
-    private static void bindPreferenceSummaryToValue(Preference preference) {
+    private void bindPreferenceSummaryToValue(Preference preference) {
         // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
 
@@ -199,61 +264,15 @@ public class SettingsActivity extends PreferenceActivity {
                         .getString(preference.getKey(), ""));
     }
 
-    /**
-     * This fragment shows general preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class GeneralPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.pref_general);
+    public void restart_service(){
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("example_text"));
-            bindPreferenceSummaryToValue(findPreference("example_list"));
-        }
-    }
+        Intent serviceIntent;
+        serviceIntent = new Intent(this, MainService.class);
 
-    /**
-     * This fragment shows notification preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class NotificationPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.pref_notification);
+        if(SysUtil.isServiceRunning(this,MainService.class) == true)
+            stopService(serviceIntent);
 
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-        }
-    }
+        startService(serviceIntent);
 
-    /**
-     * This fragment shows data and sync preferences only. It is used when the
-     * activity is showing a two-pane settings UI.
-     */
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class DataSyncPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(com.foxconn.cnsbg.escort.R.xml.pref_data_sync);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-            bindPreferenceSummaryToValue(findPreference("sync_frequency"));
-        }
     }
 }
